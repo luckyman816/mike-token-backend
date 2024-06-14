@@ -65,7 +65,27 @@ router.post("/updateEnergy/:user_id", async (req: Request, res: Response) => {
     return res.status(400).json({ msg: "You have no permission" });
   }
 });
-
+router.post("/updateBalance/:user_id", async (req: Request, res: Response) => {
+  const wallet = await Wallet.findOne({user_id: req.params.user_id});
+  console.log("requeset", req.body);
+  if (wallet) {
+    const updated_wallet = await Wallet.findOneAndUpdate(
+      {user_id: req.params.user_id},
+      { balance: req.body.balance },
+    );
+    //   console.log("--------------test----------",updated_wallet);
+    const return_wallet = {
+      _id: updated_wallet._id,
+      user_id: updated_wallet.user_id,
+      username: updated_wallet.username,
+      balance: req.body.balance,
+      energy: updated_wallet.energy
+    };
+    return res.status(200).json(return_wallet);
+  } else {
+    return res.status(400).json({ msg: "You have no permission" });
+  }
+});
 router.get("/all", async (req: Request, res: Response) => {
   const users = await Wallet.find();
   res.json(users);
