@@ -1,7 +1,11 @@
 import { Schema, model } from "mongoose";
 
 const WalletSchema: Schema = new Schema({
-  wallet_address: {
+  user_id : {
+    type: String,
+    required: true
+  },
+  username: {
     type: String,
     required: true,
   },

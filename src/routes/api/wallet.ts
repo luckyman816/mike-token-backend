@@ -6,34 +6,36 @@ const router: Router = express.Router();
 
 router.post("/add", async (req: Request, res: Response) => {
   console.log("----------->wallet---->", req.body);
-  const wallet_new = new Wallet({
-    wallet_address: req.body.wallet_address,
+  const user_new = new Wallet({
+    user_id: req.body.user_id,
+    username: req.body.username
   });
   try {
-    const { wallet_address } = req.body;
-    let wallet_check = await Wallet.findOne({ wallet_address });
-    if (wallet_check) {
-      return res.json(wallet_check);
+    const { user_id } = req.body;
+    let user_check = await Wallet.findOne({ user_id });
+    if (user_check) {
+      return res.json(user_check);
     } else {
-      await wallet_new.save();
-      res.json(wallet_new);
+      await user_new.save();
+      res.json(user_new);
     }
   } catch (error) {
     res.status(400).json({ msg: error });
   }
 });
-router.post("/update/:wallet_address", async (req: Request, res: Response) => {
-  const wallet = await Wallet.findOne({wallet_address: req.params.wallet_address});
+router.post("/update/:user_id", async (req: Request, res: Response) => {
+  const wallet = await Wallet.findOne({user_id: req.params.user_id});
   console.log("requeset", req.body);
   if (wallet) {
     const updated_wallet = await Wallet.findOneAndUpdate(
-      {wallet_address: req.params.wallet_address},
+      {user_id: req.params.user_id},
       { balance: req.body.balance, energy: req.body.energy },
     );
     //   console.log("--------------test----------",updated_wallet);
     const return_wallet = {
-      _id: req.params.orderId,
-      wallet_address: updated_wallet.wallet_address,
+      _id: updated_wallet._id,
+      user_id: updated_wallet.user_id,
+      username: updated_wallet.username,
       balance: req.body.balance,
       energy: req.body.energy
     };
@@ -42,16 +44,38 @@ router.post("/update/:wallet_address", async (req: Request, res: Response) => {
     return res.status(400).json({ msg: "You have no permission" });
   }
 });
-router.get("/all", async (req: Request, res: Response) => {
-  const factories = await Wallet.find();
-  res.json(factories);
+router.post("/updateEnergy/:user_id", async (req: Request, res: Response) => {
+  const wallet = await Wallet.findOne({user_id: req.params.user_id});
+  console.log("requeset", req.body);
+  if (wallet) {
+    const updated_wallet = await Wallet.findOneAndUpdate(
+      {user_id: req.params.user_id},
+      { energy: req.body.energy },
+    );
+    //   console.log("--------------test----------",updated_wallet);
+    const return_wallet = {
+      _id: updated_wallet._id,
+      user_id: updated_wallet.user_id,
+      username: updated_wallet.username,
+      balance: updated_wallet.balance,
+      energy: req.body.energy
+    };
+    return res.status(200).json(return_wallet);
+  } else {
+    return res.status(400).json({ msg: "You have no permission" });
+  }
 });
-router.delete("/delete/:wallet_id", async (req: Request, res: Response) => {
-  let wallet = await Wallet.findOne({ _id: req.params.wallet_id });
+
+router.get("/all", async (req: Request, res: Response) => {
+  const users = await Wallet.find();
+  res.json(users);
+});
+router.delete("/delete/:user_id", async (req: Request, res: Response) => {
+  let wallet = await Wallet.findOne({ _id: req.params.user_id });
   if (!wallet) {
     return res.status(404).json({ msg: "User not found." });
   }
-  await Wallet.deleteOne({ _id: req.params.wallet_id });
+  await Wallet.deleteOne({ _id: req.params.user_id });
   res.json({ msg: "Delete Successfully" });
 });
 export default router;
