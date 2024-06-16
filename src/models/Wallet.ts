@@ -1,10 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const WalletSchema: Schema = new Schema({
-  user_id : {
-    type: String,
-    required: true
-  },
   username: {
     type: String,
     required: true,
@@ -14,6 +10,14 @@ const WalletSchema: Schema = new Schema({
     default: 0
   },
   energy: {
+    type: Number,
+    default: 1000
+  },
+  tap: {
+    type: Number,
+    default: 1
+  },
+  limit: {
     type: Number,
     default: 1000
   }
