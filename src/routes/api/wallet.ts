@@ -133,7 +133,7 @@ router.post("/updateBalance/:username", async (req: Request, res: Response) => {
   }
 });
 router.get("/all", async (req: Request, res: Response) => {
-  const users = await Wallet.find();
+  const users = await Wallet.find().limit(5).sort({'balance': -1});
   res.json(users);
 });
 router.post("/:username", async (req: Request, res: Response) => {
