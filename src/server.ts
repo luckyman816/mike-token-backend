@@ -4,6 +4,7 @@ import cors from "cors";
 import user from "./routes/api/user";
 import wallet from "./routes/api/wallet"
 import friend from "./routes/api/friend";
+import earnings from "./routes/api/earnings";
 import connectDB from "./lib/dbConnect";
  import dotenv from "dotenv";
 
@@ -25,6 +26,7 @@ app.use("/static", express.static(__dirname + "/public"));
 app.use("/api/user", user);
 app.use("/api/wallet", wallet);
 app.use("/api/friend", friend);
+app.use("/api/earnings", earnings);
 app.get("/api/get-suv-version", (req, res) => {
   res.send(
     JSON.stringify({
