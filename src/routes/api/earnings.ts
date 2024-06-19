@@ -10,7 +10,7 @@ router.post('/add', async (req: Request, res: Response) => {
     try {
         let username_check = await Earnings.findOne({ username: req.body.username });
         if (username_check) {
-            return res.status(400).json({ msg: "You are already available" });
+            return res.json(username_check);
         } else {
             await newUser.save();
             res.json(newUser);
