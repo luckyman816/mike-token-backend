@@ -38,6 +38,7 @@ router.post("/update/:username", async (req: Request, res: Response) => {
       energy: req.body.energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
+      daily_coins: updated_wallet.daily_coins
     };
     return res.status(200).json(return_wallet);
   } else {
@@ -60,6 +61,7 @@ router.post("/updateEnergy/:username", async (req: Request, res: Response) => {
       energy: req.body.energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
+      daily_coins: updated_wallet.daily_coins
     };
     return res.status(200).json(return_wallet);
   } else {
@@ -82,6 +84,7 @@ router.post("/updateTap/:username", async (req: Request, res: Response) => {
       energy: updated_wallet.energy,
       tap: req.body.tap,
       limit: updated_wallet.limit,
+      daily_coins: updated_wallet.daily_coins
     };
     return res.status(200).json(return_wallet);
   } else {
@@ -104,6 +107,7 @@ router.post("/updateLimit/:username", async (req: Request, res: Response) => {
       energy: updated_wallet.energy,
       tap: updated_wallet.tap,
       limit: req.body.limit,
+      daily_coins: updated_wallet.daily_coins
     };
     return res.status(200).json(return_wallet);
   } else {
@@ -126,6 +130,30 @@ router.post("/updateBalance/:username", async (req: Request, res: Response) => {
       energy: updated_wallet.energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
+      daily_coins: updated_wallet.daily_coins
+    };
+    return res.status(200).json(return_wallet);
+  } else {
+    return res.status(400).json({ msg: "You have no permission" });
+  }
+});
+router.post("/updateDailyCoins/:username", async (req: Request, res: Response) => {
+  const wallet = await Wallet.findOne({ username: req.params.username });
+  console.log("requeset", req.body);
+  if (wallet) {
+    const updated_wallet = await Wallet.findOneAndUpdate(
+      { username: req.params.username },
+      { daily_coins: req.body.daily_coins }
+    );
+    //   console.log("--------------test----------",updated_wallet);
+    const return_wallet = {
+      _id: updated_wallet._id,
+      username: updated_wallet.username,
+      balance: req.body.balance,
+      energy: updated_wallet.energy,
+      tap: updated_wallet.tap,
+      limit: updated_wallet.limit,
+      daily_coins: updated_wallet.daily_coins
     };
     return res.status(200).json(return_wallet);
   } else {
