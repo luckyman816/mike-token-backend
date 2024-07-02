@@ -7,7 +7,7 @@ const VibeSchema: Schema = new Schema({
   },
   vibe_date: {
     type: String,
-    default: () => moment().subtract(1, 'days').toDate(),
+    default: () => moment().subtract(1, 'days').toISOString(),
   }
 });
 const Vibe = model("Vibe", VibeSchema);
