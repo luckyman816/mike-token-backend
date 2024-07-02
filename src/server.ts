@@ -5,7 +5,8 @@ import user from "./routes/api/user";
 import wallet from "./routes/api/wallet"
 import friend from "./routes/api/friend";
 import earnings from "./routes/api/earnings";
-import vibe from "./routes/api/vibe"
+import vibe from "./routes/api/vibe";
+import walletAddress from "./routes/api/walletAddress";
 import connectDB from "./lib/dbConnect";
  import dotenv from "dotenv";
 
@@ -29,6 +30,7 @@ app.use("/api/wallet", wallet);
 app.use("/api/friend", friend);
 app.use("/api/earnings", earnings);
 app.use("/api/vibe", vibe);
+app.use("/api/walletAddress", walletAddress);
 app.get("/api/get-suv-version", (req, res) => {
   res.send(
     JSON.stringify({
