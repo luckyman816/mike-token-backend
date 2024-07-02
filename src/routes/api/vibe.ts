@@ -30,13 +30,32 @@ router.post("/updateVibe/:username", async (req: Request, res: Response) => {
     const return_vibe = {
       _id: updated_vibe._id,
       username: updated_vibe.username,
+      message: updated_vibe.message,
       vibe_date: req.body.vibe_date
     };
     return res.status(200).json(return_vibe);
   } else {
-    return res.status(400).json({ msg: "You have no permission" });
+    return res.status(400).json({ msg: "You have no vibe" });
   }
 });
+router.post("/updateMessage/:username", async (req: Request, res: Response) => {
+  const vibe = await Vibe.findOne({ username: req.params.username });
+  if (vibe) {
+    const updated_vibe = await Vibe.findOneAndUpdate(
+        {username: req.params.username},
+        {message: req.body.message}
+    );
+    const return_vibe = {
+        _id: updated_vibe._id,
+        username: updated_vibe.username,
+        message: req.body.message,
+        vibe_date: updated_vibe.vibe_date
+    };
+    return res.status(200).json(return_vibe);
+  } else {
+    return res.status(400).json({ msg: "You have no vibe" });
+  }
+})
 router.post("/:username", async (req: Request, res: Response) => {
     let vibe = await Vibe.find({ username: req.params.username });
     if (vibe) {

@@ -5,6 +5,10 @@ const VibeSchema: Schema = new Schema({
     type: String,
     required: true,
   },
+  message: {
+    type: Boolean,
+    default: true
+  },
   vibe_date: {
     type: String,
     default: () => moment().subtract(1, 'days').toISOString(),
