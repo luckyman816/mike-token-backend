@@ -36,6 +36,7 @@ router.post("/update/:username", async (req: Request, res: Response) => {
       username: updated_wallet.username,
       balance: req.body.balance,
       energy: req.body.energy,
+      full_energy: updated_wallet.full_energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
       daily_coins: updated_wallet.daily_coins
@@ -59,6 +60,7 @@ router.post("/updateEnergy/:username", async (req: Request, res: Response) => {
       username: updated_wallet.username,
       balance: updated_wallet.balance,
       energy: req.body.energy,
+      full_energy: updated_wallet.full_energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
       daily_coins: updated_wallet.daily_coins
@@ -82,6 +84,7 @@ router.post("/updateTap/:username", async (req: Request, res: Response) => {
       username: updated_wallet.username,
       balance: updated_wallet.balance,
       energy: updated_wallet.energy,
+      full_energy: updated_wallet.full_energy,
       tap: req.body.tap,
       limit: updated_wallet.limit,
       daily_coins: updated_wallet.daily_coins
@@ -105,6 +108,7 @@ router.post("/updateLimit/:username", async (req: Request, res: Response) => {
       username: updated_wallet.username,
       balance: updated_wallet.balance,
       energy: updated_wallet.energy,
+      full_energy: updated_wallet.full_energy,
       tap: updated_wallet.tap,
       limit: req.body.limit,
       daily_coins: updated_wallet.daily_coins
@@ -128,6 +132,7 @@ router.post("/updateBalance/:username", async (req: Request, res: Response) => {
       username: updated_wallet.username,
       balance: req.body.balance,
       energy: updated_wallet.energy,
+      full_energy: updated_wallet.full_energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
       daily_coins: updated_wallet.daily_coins
@@ -151,6 +156,31 @@ router.post("/updateDailyCoins/:username", async (req: Request, res: Response) =
       username: updated_wallet.username,
       balance: req.body.balance,
       energy: updated_wallet.energy,
+      full_energy: updated_wallet.full_energy,
+      tap: updated_wallet.tap,
+      limit: updated_wallet.limit,
+      daily_coins: updated_wallet.daily_coins
+    };
+    return res.status(200).json(return_wallet);
+  } else {
+    return res.status(400).json({ msg: "You have no permission" });
+  }
+});
+router.post("/updateFullEnergy/:username", async (req: Request, res: Response) => {
+  const wallet = await Wallet.findOne({ username: req.params.username });
+  console.log("requeset", req.body);
+  if (wallet) {
+    const updated_wallet = await Wallet.findOneAndUpdate(
+      { username: req.params.username },
+      { full_energy: req.body.full_energy }
+    );
+    //   console.log("--------------test----------",updated_wallet);
+    const return_wallet = {
+      _id: updated_wallet._id,
+      username: updated_wallet.username,
+      balance: updated_wallet.balance,
+      energy: updated_wallet.energy,
+      full_energy: req.body.full_energy,
       tap: updated_wallet.tap,
       limit: updated_wallet.limit,
       daily_coins: updated_wallet.daily_coins

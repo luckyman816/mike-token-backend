@@ -14,6 +14,10 @@ const WalletSchema: Schema = new Schema({
     type: Number,
     default: 1000
   },
+  full_energy: {
+    type: Number,
+    default: 1
+  },
   tap: {
     type: Number,
     default: 1
